@@ -20,7 +20,7 @@ class ViewController: UIViewController {
 	}
 	
 	func setupSegmentedControl() {
-		let segmentedControl = SegmentedControl(frame: controlContainerView.bounds, tabIcons: [#imageLiteral(resourceName: "beer_icon"), #imageLiteral(resourceName: "bar_icon"), #imageLiteral(resourceName: "night_club"), #imageLiteral(resourceName: "restaurant")], controlColor: UIColor.orange, selectedTabColor: UIColor.white, tabTintColor: UIColor.white, startingIndex: 2)
+		let segmentedControl = SegmentedControl(frame: controlContainerView.bounds, tabIcons: [#imageLiteral(resourceName: "beer_icon"), #imageLiteral(resourceName: "bar_icon"), #imageLiteral(resourceName: "night_club"), #imageLiteral(resourceName: "restaurant")], controlColor: UIColor.orange, selectedTabColor: UIColor.white, tabTintColor: UIColor.white)
 		segmentedControl.delegate = self
 		controlContainerView.addSubview(segmentedControl)
 	}
