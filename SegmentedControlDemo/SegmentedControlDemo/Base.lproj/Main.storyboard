@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SegmentedControlDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a tab, I dare you" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbc-gG-1BL">
+                                <rect key="frame" x="36" y="314" width="303" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="7sM-G4-3JT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ONb-cP-No0">
+                                <rect key="frame" x="36" y="211" width="303" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="u8V-kS-D7q"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Segmented Control" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bp2-P4-1EW">
+                                <rect key="frame" x="36" y="132.5" width="303" height="38.5"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="qbc-gG-1BL" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="BWN-Ob-3xf"/>
+                            <constraint firstItem="ONb-cP-No0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="E3s-Hs-4jp"/>
+                            <constraint firstItem="qbc-gG-1BL" firstAttribute="top" secondItem="ONb-cP-No0" secondAttribute="bottom" constant="53" id="H0i-sE-Ncj"/>
+                            <constraint firstItem="ONb-cP-No0" firstAttribute="top" secondItem="Bp2-P4-1EW" secondAttribute="bottom" constant="40" id="NyI-ab-Mkw"/>
+                            <constraint firstItem="qbc-gG-1BL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="ZyB-AY-GJ1"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qbc-gG-1BL" secondAttribute="trailing" constant="20" id="nh6-SY-ozt"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ONb-cP-No0" secondAttribute="trailing" constant="20" id="oEI-TH-REp"/>
+                            <constraint firstItem="Bp2-P4-1EW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="vxK-No-Zle"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Bp2-P4-1EW" secondAttribute="trailing" constant="20" id="xP4-FV-3hR"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="controlContainerView" destination="ONb-cP-No0" id="UcM-rK-j4h"/>
+                        <outlet property="messageLabel" destination="qbc-gG-1BL" id="QGv-zv-lfr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="95.802098950524751"/>
+        </scene>
+    </scenes>
+</document>
