@@ -9,11 +9,11 @@
 import Foundation
 import UIKit
 
-protocol SegmentedControlDelegate: class {
+public protocol SegmentedControlDelegate: class {
 	func tabSelected(atIndex index: Int)
 }
 
-@IBDesignable public class SegmentedControl: UIView {
+public class SegmentedControl: UIView {
 	
 	// MARK: - Properties
 	
@@ -21,15 +21,15 @@ protocol SegmentedControlDelegate: class {
 	
 	/// Images to be used for tab icons. Image icons must have transparency in order for selected tab background to show as intended.
 	var tabIcons: [UIImage] = []
-	var tabs: [UIImageView] = []
+	
+	private(set) var tabs: [UIImageView] = []
 
-	// Tab Selection
+	// MARK: Tab Selection
 	private(set) var selectedIndex: Int = 0
 	private(set) var selectedTab: UIImageView = UIImageView()
 	private var startingIndex = 0
 	
-	// UI
-	
+	// MARK: UI
 	var controlColor = UIColor.orange {
 		willSet(newColor) {
 			self.backgroundColor = newColor
