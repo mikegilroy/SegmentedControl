@@ -20,10 +20,9 @@ public class SegmentedControl: UIView {
 	weak var delegate: SegmentedControlDelegate?
 	
 	/// Images to be used for tab icons. Image icons must have transparency in order for selected tab background to show as intended.
-	var tabIcons: [UIImage] = []
-	
+	private var tabIcons: [UIImage] = []
 	private(set) var tabs: [UIImageView] = []
-
+	
 	// MARK: Tab Selection
 	private(set) var selectedIndex: Int = 0
 	private(set) var selectedTab: UIImageView = UIImageView()
@@ -33,6 +32,7 @@ public class SegmentedControl: UIView {
 	var controlColor = UIColor.orange {
 		willSet(newColor) {
 			self.backgroundColor = newColor
+			self.shadowLayer?.fillColor = newColor.cgColor
 		}
 	}
 	
@@ -47,6 +47,7 @@ public class SegmentedControl: UIView {
 	var selectedTabColor = UIColor.white {
 		willSet(newColor) {
 			selectedTabBackgroundView.backgroundColor = newColor
+			selectedTabShadowLayer?.fillColor = newColor.cgColor
 		}
 	}
 	
@@ -55,6 +56,8 @@ public class SegmentedControl: UIView {
 	private var spacing: CGFloat = 6
 	private var imagePadding: CGFloat = 4
 	private var selectedTabBackgroundView: UIView = UIView()
+	private var shadowLayer: CAShapeLayer?
+	private var selectedTabShadowLayer: CAShapeLayer?
 	
 	private var tabWidth : CGFloat {
 		return (self.frame.width - (margin * 2) - (spacing * CGFloat(tabIcons.count - 1))) / CGFloat(tabIcons.count)
@@ -67,14 +70,18 @@ public class SegmentedControl: UIView {
 	
 	// MARK: - Initialisers
 	
+	convenience init() {
+		self.init(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+	}
+	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		setupViews()
+		commonInit()
 	}
 	
 	required public init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
-		setupViews()
+		commonInit()
 	}
 	
 	init(frame: CGRect, tabIcons: [UIImage], controlColor: UIColor, selectedTabColor: UIColor, tabTintColor: UIColor, startingIndex: Int = 0) {
@@ -97,7 +104,12 @@ public class SegmentedControl: UIView {
 			self.selectedIndex = startingIndex
 		}
 		
+		commonInit()
+	}
+	
+	private func commonInit() {
 		setupViews()
+		addShadow()
 	}
 	
 	
@@ -130,11 +142,45 @@ public class SegmentedControl: UIView {
 			tabImageView.tag = index
 			
 			let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectedTab(sender:)))
-			tabImageView.isUserInteractionEnabled = true
-			tabImageView.addGestureRecognizer(tapGesture)
+			let tappableFrame = CGRect(x: tabImageView.frame.origin.x, y: 0, width: tabImageView.frame.width, height: self.frame.height)
+			let imageGestureView = UIView(frame: tappableFrame)
+			imageGestureView.backgroundColor = UIColor.clear
+			imageGestureView.addGestureRecognizer(tapGesture)
+			imageGestureView.isUserInteractionEnabled = true
+			imageGestureView.tag = index
 			
 			tabs.append(tabImageView)
 			addSubview(tabImageView)
+			addSubview(imageGestureView)
+		}
+	}
+	
+	private func addShadow() {
+		if shadowLayer == nil {
+			// Segmented Control Shadow
+			let shadowLayer = CAShapeLayer()
+			shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: self.frame.height / 2).cgPath
+			shadowLayer.fillColor = controlColor.cgColor
+			
+			shadowLayer.shadowColor = UIColor.darkGray.cgColor
+			shadowLayer.shadowPath = shadowLayer.path
+			shadowLayer.shadowOffset = CGSize(width: 0, height: 1.0)
+			shadowLayer.shadowOpacity = 0.8
+			shadowLayer.shadowRadius = 1
+			self.shadowLayer = shadowLayer
+			layer.insertSublayer(shadowLayer, at: 0)
+			
+			// Selected Tab Shadow
+			let tabShadowLayer = CAShapeLayer()
+			tabShadowLayer.path = UIBezierPath(roundedRect: selectedTabBackgroundView.bounds, cornerRadius: selectedTabBackgroundView.frame.height / 2).cgPath
+			tabShadowLayer.fillColor = selectedTabColor.cgColor
+			tabShadowLayer.shadowColor = UIColor.darkGray.cgColor
+			tabShadowLayer.shadowPath = tabShadowLayer.path
+			tabShadowLayer.shadowOffset = CGSize(width: 0, height: 1.0)
+			tabShadowLayer.shadowOpacity = 0.5
+			tabShadowLayer.shadowRadius = 1
+			self.selectedTabShadowLayer = tabShadowLayer
+			selectedTabBackgroundView.layer.insertSublayer(tabShadowLayer, at: 0)
 		}
 	}
 	
@@ -142,16 +188,20 @@ public class SegmentedControl: UIView {
 	// MARK: - Actions
 	
 	@objc private func selectedTab(sender: UITapGestureRecognizer) {
-		guard let selectedTab = sender.view as? UIImageView else { return }
-		self.selectedTab = selectedTab
+		guard let selectedTab = sender.view else { return }
 		let tabIndex = selectedTab.tag
+		for case let tab in tabs where tab.tag == tabIndex {
+			self.selectedTab = tab
+		}
 		if selectedIndex != tabIndex {
 			for case let imageView as UIImageView in subviews  {
 				imageView.tintColor = tabTintColor
 			}
-			selectedTab.tintColor = backgroundColor
-	
-			animateSelection(forIndex: tabIndex)
+			DispatchQueue.main.async {
+				self.selectedTab.tintColor = self.backgroundColor
+				self.animateSelection(forIndex: tabIndex)
+			}
+			
 			delegate?.tabSelected(atIndex: tabIndex)
 			selectedIndex = tabIndex
 		}
