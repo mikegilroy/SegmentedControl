@@ -92,7 +92,10 @@ public class SegmentedControl: UIView {
 		self.controlColor = controlColor
 		self.selectedTabColor = selectedTabColor
 		self.tabTintColor = tabTintColor
-		self.startingIndex = startingIndex
+		if startingIndex != 0 {
+			self.startingIndex = startingIndex
+			self.selectedIndex = startingIndex
+		}
 		
 		setupViews()
 	}
